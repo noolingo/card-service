@@ -6,7 +6,7 @@ require (
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/noolingo/proto v0.0.0-20240424123514-1a773143721a
-	github.com/noolingo/yandex-dictionary v0.0.0-20240427140131-5131bad688b3
+	github.com/noolingo/yandex-dictionary v0.0.0-20240518203605-6d938e1a4542
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/sync v0.7.0
