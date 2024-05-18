@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/noolingo/card-service/internal/service"
 	"github.com/noolingo/proto/codegen/go/noolingo"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -35,7 +36,7 @@ func (s *Server) Serve() error {
 		return fmt.Errorf("can't start listening addr: %w", err)
 	}
 	grpc_health_v1.RegisterHealthServer(s.server, health.NewServer())
-	noolingo.RegisterUserServer(s.server, newUserServer(s.logger, s.service))
+	noolingo.RegisterCardsServer(s.server, newCardServer(s.logger, s.service))
 	err = s.server.Serve(lis)
 
 	if err != nil {

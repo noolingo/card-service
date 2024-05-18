@@ -1,6 +1,6 @@
 package main
 
-const configPath = "config/config.yaml"
+const configPath = "configs/config.yml"
 
 func main() {
 

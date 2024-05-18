@@ -1,8 +1,11 @@
 package service
 
 import (
+	"context"
+
 	"github.com/noolingo/card-service/internal/domain"
 	"github.com/noolingo/card-service/internal/repository"
+	trans "github.com/noolingo/yandex-dictionary"
 	"github.com/sirupsen/logrus"
 )
 
@@ -21,3 +24,12 @@ func NewCardService(p *Param) *CardService {
 }
 
 //getCard() x3(id, rus, eng)
+
+func (c *CardService) SaveCardRus(ctx context.Context, wordRus string, api string) (err error) {
+	translate, err := trans.TranslateRus(wordRus, api)
+	if err != nil {
+		return err
+	}
+
+	return err
+}
