@@ -1,8 +1,0 @@
-appname: card-service
-grpcserver:
-    host: 0.0.0.0
-    port: "9002"
-mysql:
-    dsn: "mysql://root:secret@tcp(localhost:3306)/noolingo"
-yandex-dictionary:
-    yandex-api: "dict.1.1.20240427T123751Z.a672cfe8b5588488.3c5b9072b80e4edbc9279ed2b62c014c722d5ebf"
