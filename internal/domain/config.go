@@ -10,8 +10,8 @@ type Config struct {
 }
 
 type GrpcServer struct {
-	Host string `yaml:"host" env-default:"0.0.0.0"`
-	Port string `yaml:"port" env-default:"9002"`
+	Host string `yaml:"host" env-default:"0.0.0.0" env:"HOST"`
+	Port string `yaml:"port" env-default:"9002" env:"PORT"`
 }
 
 type Mysql struct {
