@@ -66,7 +66,7 @@ func (c *card) GetCardByRus(ctx context.Context, rus string) (*domain.Card, erro
 	return card, err
 }
 
-func (c *card) SaveCard(ctx context.Context, translate *trans.Translate) (id string, err error) {
+func (c *card) SaveCard(ctx context.Context, translate *trans.Translate) (string, error) {
 	ins, err := c.db.PrepareContext(ctx,
 		"insert into card(eng,rus,Transcription)values (?,?,?,?)")
 	if err != nil {

@@ -3,10 +3,10 @@ package domain
 import "time"
 
 type Config struct {
-	AppName    string           `yaml:"appname" env-default:"test"`
-	GrpcServer GrpcServer       `yaml:"grpcserver" env-prefix:"CARD_SERVICE_"`
-	Mysql      Mysql            `yaml:"mysql" env-prefix:"CARD_SERVICE_"`
-	Api        YandexDictionary `yaml:"yandexapi" env-prefix:"YANDEX_API_"`
+	AppName          string           `yaml:"appname" env-default:"test"`
+	GrpcServer       GrpcServer       `yaml:"grpcserver" env-prefix:"CARD_SERVICE_"`
+	Mysql            Mysql            `yaml:"mysql" env-prefix:"CARD_SERVICE_"`
+	YandexDictionary YandexDictionary `yaml:"yandexapi" env-prefix:"YANDEX_API_"`
 }
 
 type GrpcServer struct {
