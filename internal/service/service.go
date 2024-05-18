@@ -18,13 +18,13 @@ type Services struct {
 	Card Card
 }
 
-type Param struct {
+type Params struct {
 	Logger     *logrus.Logger
 	Config     *domain.Config
 	Repository *repository.Repository
 }
 
-func New(p *Param) *Services {
+func New(p *Params) *Services {
 	return &Services{
 		Card: NewCardService(p),
 	}

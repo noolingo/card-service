@@ -20,15 +20,13 @@ type CardService struct {
 	repository repository.Repository
 }
 
-func NewCardService(p *Param) *CardService {
+func NewCardService(p *Params) *CardService {
 	return &CardService{
 		logger:     p.Logger,
 		repository: *p.Repository,
 		Config:     p.Config,
 	}
 }
-
-//getCard() x3(id, rus, eng)
 
 func (c *CardService) GetCardByID(ctx context.Context, id string) (*domain.Card, error) {
 	card, err := c.repository.GetCardByID(ctx, id)
