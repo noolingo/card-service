@@ -44,13 +44,20 @@ func (c *CardService) GetCardByRus(ctx context.Context, rus string) (*domain.Car
 	if err != nil {
 		return nil, err
 	}
-	if card == nil {
-		err := c.saveCardRus(ctx, rus)
-		if err != nil {
-			return nil, err
-		}
+	if card != nil {
+		return card, nil
 	}
-	return card, err
+	translate, err := trans.TranslateRus(rus, c.Config.YandexDictionary.Api)
+	if err != nil {
+		return nil, err
+	}
+	id, err := c.repository.SaveCard(ctx, translate)
+	return &domain.Card{
+		ID:            id,
+		Eng:           translate.Eng,
+		Rus:           translate.Rus,
+		Transcription: translate.Transcription,
+	}, err
 }
 
 func (c *CardService) GetCardByEng(ctx context.Context, eng string) (*domain.Card, error) {
@@ -58,35 +65,18 @@ func (c *CardService) GetCardByEng(ctx context.Context, eng string) (*domain.Car
 	if err != nil {
 		return nil, err
 	}
-	if card == nil {
-		err := c.saveCardEng(ctx, eng)
-		if err != nil {
-			return nil, err
-		}
+	if card != nil {
+		return card, nil
 	}
-	return card, err
-}
-
-func (c *CardService) saveCardRus(ctx context.Context, rus string) error {
-	translate, err := trans.TranslateRus(rus, c.Config.YandexDictionary.Api)
-	if err != nil {
-		return err
-	}
-	_, err = c.repository.SaveCard(ctx, translate)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (c *CardService) saveCardEng(ctx context.Context, eng string) error {
 	translate, err := trans.TranslateEng(eng, c.Config.YandexDictionary.Api)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	_, err = c.repository.SaveCard(ctx, translate)
-	if err != nil {
-		return err
-	}
-	return nil
+	id, err := c.repository.SaveCard(ctx, translate)
+	return &domain.Card{
+		ID:            id,
+		Eng:           translate.Eng,
+		Rus:           translate.Rus,
+		Transcription: translate.Transcription,
+	}, err
 }
