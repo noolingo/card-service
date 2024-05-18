@@ -9,7 +9,7 @@ import (
 )
 
 type Repository interface {
-	GetCardByID(ctx context.Context, id string) (*domain.Card, error)
+	GetCardByID(ctx context.Context, id ...string) ([]*domain.Card, error)
 	GetCardByEng(ctx context.Context, eng string) (*domain.Card, error)
 	GetCardByRus(ctx context.Context, rus string) (*domain.Card, error)
 	SaveCard(ctx context.Context, translate *trans.Translate) (string, error)

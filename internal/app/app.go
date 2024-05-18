@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"errors"
 	"os"
 	"os/signal"
 	"syscall"
@@ -13,6 +12,7 @@ import (
 	"github.com/noolingo/card-service/internal/repository"
 	"github.com/noolingo/card-service/internal/service"
 	grpcserver "github.com/noolingo/card-service/internal/transport/grpc/server"
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/sync/errgroup"
 )

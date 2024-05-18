@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/noolingo/card-service/internal/domain"
 	trans "github.com/noolingo/yandex-dictionary"
@@ -14,21 +15,32 @@ type card struct {
 	db *sql.DB
 }
 
-func (c *card) GetCardByID(ctx context.Context, id string) (*domain.Card, error) {
-	card := &domain.Card{}
-	err := c.db.QueryRowContext(ctx, "select * from card where id=?", id).Scan(
-		&card.ID,
-		&card.Eng,
-		&card.Rus,
-		&card.Transcription,
-	)
+func (c *card) GetCardByID(ctx context.Context, id ...string) ([]*domain.Card, error) {
+	args := make([]interface{}, len(id))
+	for i, id := range id {
+		args[i] = id
+	}
+	stmt := `SELECT id, eng, rus, transcription from card where id in (?` + strings.Repeat(",?", len(args)-1) + `)`
+	rows, err := c.db.Query(stmt, args...)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, nil
 		}
 		return nil, err
 	}
-	return card, err
+
+	defer rows.Close()
+
+	var cards []*domain.Card
+	for rows.Next() {
+		card := &domain.Card{}
+		err = rows.Scan(&card.ID, &card.Eng, &card.Rus, &card.Transcription)
+		if err != nil {
+			return nil, err
+		}
+		cards = append(cards, card)
+	}
+	return cards, err
 }
 
 func (c *card) GetCardByEng(ctx context.Context, eng string) (*domain.Card, error) {

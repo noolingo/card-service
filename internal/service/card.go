@@ -28,15 +28,15 @@ func NewCardService(p *Params) *CardService {
 	}
 }
 
-func (c *CardService) GetCardByID(ctx context.Context, id string) (*domain.Card, error) {
-	card, err := c.repository.GetCardByID(ctx, id)
+func (c *CardService) GetCardByID(ctx context.Context, id ...string) ([]*domain.Card, error) {
+	cards, err := c.repository.GetCardByID(ctx, id...)
 	if err != nil {
 		return nil, err
 	}
-	if card == nil {
+	if cards == nil {
 		return nil, ErrNoCardFound
 	}
-	return card, err
+	return cards, err
 }
 
 func (c *CardService) GetCardByRus(ctx context.Context, rus string) (*domain.Card, error) {
