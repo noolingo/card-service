@@ -20,7 +20,7 @@ func (c *card) GetCardByID(ctx context.Context, id ...string) ([]*domain.Card, e
 	for i, id := range id {
 		args[i] = id
 	}
-	stmt := `SELECT id, eng, rus, transcription from card where id in (?` + strings.Repeat(",?", len(args)-1) + `)`
+	stmt := `SELECT id, eng, rus, transcription from cards where id in (?` + strings.Repeat(",?", len(args)-1) + `)`
 	rows, err := c.db.Query(stmt, args...)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -45,7 +45,7 @@ func (c *card) GetCardByID(ctx context.Context, id ...string) ([]*domain.Card, e
 
 func (c *card) GetCardByEng(ctx context.Context, eng string) (*domain.Card, error) {
 	card := &domain.Card{}
-	err := c.db.QueryRowContext(ctx, "select * from card where eng=?", eng).Scan(
+	err := c.db.QueryRowContext(ctx, "select * from cards where eng=?", eng).Scan(
 		&card.ID,
 		&card.Eng,
 		&card.Rus,
@@ -63,7 +63,7 @@ func (c *card) GetCardByEng(ctx context.Context, eng string) (*domain.Card, erro
 
 func (c *card) GetCardByRus(ctx context.Context, rus string) (*domain.Card, error) {
 	card := &domain.Card{}
-	err := c.db.QueryRowContext(ctx, "select * from card where rus=?", rus).Scan(
+	err := c.db.QueryRowContext(ctx, "select * from cards where rus=?", rus).Scan(
 		&card.ID,
 		&card.Eng,
 		&card.Rus,
@@ -80,7 +80,7 @@ func (c *card) GetCardByRus(ctx context.Context, rus string) (*domain.Card, erro
 
 func (c *card) SaveCard(ctx context.Context, translate *trans.Translate) (string, error) {
 	ins, err := c.db.PrepareContext(ctx,
-		"insert into card(eng,rus,Transcription)values (?,?,?,?)")
+		"insert into cards(eng,rus,Transcription)values (?,?,?,?)")
 	if err != nil {
 		return "", err
 	}
